@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTerraformIAMUserGroup(t *testing.T) {
+func TestTerraformIAMUsers(t *testing.T) {
 	t.Parallel()
 
 	// Define the terraform options
@@ -20,29 +20,19 @@ func TestTerraformIAMUserGroup(t *testing.T) {
 	defer terraform.Destroy(t, terraformOptions)
 	terraform.InitAndApply(t, terraformOptions)
 
-	// Get the IAM User and IAM Group from the outputs
+	// Get the IAM User names from the outputs
 	iamUser1Name := terraform.Output(t, terraformOptions, "iam_user1_name")
 	iamUser2Name := terraform.Output(t, terraformOptions, "iam_user2_name")
-	iamGroup1Name := terraform.Output(t, terraformOptions, "iam_group1_name")
-	iamGroup2Name := terraform.Output(t, terraformOptions, "iam_group2_name")
 
-	// Test that the IAM Users and IAM Groups are created
+	// Test that the IAM Users are created
 	assert.NotEmpty(t, iamUser1Name)
 	assert.NotEmpty(t, iamUser2Name)
-	assert.NotEmpty(t, iamGroup1Name)
-	assert.NotEmpty(t, iamGroup2Name)
 
-	// Test that the users are correctly assigned to the groups
-	assert.Contains(t, iamGroup1Name, "group1")
-	assert.Contains(t, iamGroup2Name, "group2")
-	assert.Contains(t, iamUser1Name, "user1")
-	assert.Contains(t, iamUser2Name, "user2")
+	// Test that the users are named correctly
+	assert.Equal(t, iamUser1Name, "terratest-user1")
+	assert.Equal(t, iamUser2Name, "terratest-user2")
 
-	// Output IAM User and Group Info
+	// Output IAM User Info
 	fmt.Printf("Created IAM User 1: %s\n", iamUser1Name)
 	fmt.Printf("Created IAM User 2: %s\n", iamUser2Name)
-	fmt.Printf("Created IAM Group 1: %s\n", iamGroup1Name)
-	fmt.Printf("Created IAM Group 2: %s\n", iamGroup2Name)
-
-	// You can also check for specific policies if needed.
 }

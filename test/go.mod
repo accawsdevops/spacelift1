@@ -1,4 +1,4 @@
-module iam-testin
+module iam2-testing
 
 go 1.24.2
 
