@@ -1,5 +1,5 @@
 policies:
-  - name: delete-non-admin-iam-users
+  - name: delete-non-admin-iam-user
     resource: iam-user
     filters:
       - type: value

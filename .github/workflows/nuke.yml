@@ -1,0 +1,28 @@
+name: Nuke AWS with Cloud Custodian
+
+on:
+  workflow_dispatch:  # This allows manual triggering from GitHub UI..
+
+jobs:
+  nuke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install Cloud Custodian
+        run: |
+          pip install c7n
+
+      - name: Run Cloud Custodian
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+        run: |
+          custodian run --region us-east-1 --output-dir ./output custodian_policies/nuke-policy.yml
