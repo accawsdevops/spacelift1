@@ -1,0 +1,11 @@
+policies:
+  - name: delete-non-admin-iam-user
+    resource: iam-user
+    filters:
+      - type: value
+        key: UserName
+        op: not-in
+        value: 
+          - admin-user
+    actions:
+      - type: delete
