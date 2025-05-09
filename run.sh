@@ -3,7 +3,13 @@ set -e
 
 if [[ "$NUKE_MODE" == "true" ]]; then
   echo "🔥 Nuking resources via Cloud Custodian..."
-  pip install c7n
+
+  echo "Installing Python and pip..."
+  apt-get update && apt-get install -y python3 python3-pip
+
+  echo "Installing Custodian..."
+  pip3 install c7n
+
   custodian run --region us-east-1 --output-dir output nuke.yml
 else
   echo "⚙️ Running Terraform workflow..."
