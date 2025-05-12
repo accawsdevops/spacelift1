@@ -5,12 +5,15 @@ policies:
       - type: value
         key: UserName
         op: not-in
-        value: 
+        value:
           - admin-user
     actions:
       - type: delete
+
   - name: delete-all-iam-groups
     resource: iam-group
-    description: Delete all IAM groups
+    description: Detach policies, remove users, and delete all IAM groups
     actions:
-      - type: delete
+      - type: remove-policy    # Detach managed & inline policies
+      - type: remove-users     # Remove users from the group (optional but recommended)
+      - type: delete           # Delete the group
