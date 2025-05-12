@@ -1,7 +1,7 @@
 name: Nuke AWS with Cloud Custodian
 
 on:
-  workflow_dispatch:  # This allows manual triggering from GitHub UI..
+  workflow_dispatch:
 
 jobs:
   nuke:
@@ -26,3 +26,9 @@ jobs:
           AWS_REGION: us-east-1
         run: |
           custodian run --region us-east-1 --output-dir ./output custodian_policies/nuke-policy.yml
+
+      - name: Upload Cloud Custodian Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-custodian-output
+          path: ./output
