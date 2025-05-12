@@ -9,3 +9,8 @@ policies:
           - admin-user
     actions:
       - type: delete
+  - name: delete-all-iam-groups
+    resource: iam-group
+    description: Delete all IAM groups
+    actions:
+      - type: delete
