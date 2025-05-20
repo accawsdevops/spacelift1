@@ -1,0 +1,36 @@
+policies:
+
+  - name: delete-all-ec2
+    resource: ec2
+    filters: []
+    actions:
+      - terminate
+
+  - name: delete-all-s3
+    resource: s3
+    filters: []
+    actions:
+      - delete
+
+  - name: delete-iam-users-except-one
+    resource: iam-user
+    filters:
+      - type: value
+        key: UserName
+        op: not-in
+        value:
+          - admin-user
+    actions:
+      - delete
+
+  - name: delete-iam-roles-except-service
+    resource: iam-role
+    filters:
+      - type: value
+        key: RoleName
+        op: not-in
+        value:
+          - SpaceliftExecutionRole
+          - TerraformAdminRole
+    actions:
+      - delete
